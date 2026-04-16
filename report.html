@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SubTrackr 사이트 분석 보고서</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+            color: #2d3748;
+        }
+
+        /* 네비게이션 메뉴 */
+        .navbar {
+            max-width: 1000px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+
+        .nav-item {
+            padding: 14px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #718096;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+            border-bottom-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 헤더 */
+        .header {
+            background: linear-gradient(135deg, #414042 0%, #2d3748 100%);
+            color: white;
+            padding: 50px 30px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(65, 64, 66, 0.15);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 8px;
+        }
+
+        .header-meta {
+            font-size: 13px;
+            opacity: 0.8;
+            margin-top: 12px;
+        }
+
+        /* 카드 그리드 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border-left: 4px solid #414042;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card.overview {
+            border-left-color: #4facfe;
+            grid-column: span 2;
+        }
+
+        .card.structure {
+            border-left-color: #00f2fe;
+        }
+
+        .card.design {
+            border-left-color: #43e97b;
+        }
+
+        .card.features {
+            border-left-color: #f093fb;
+        }
+
+        .card.ratings {
+            border-left-color: #fa7e1e;
+        }
+
+        .card.strengths {
+            border-left-color: #43e97b;
+            grid-column: span 2;
+        }
+
+        .card.improvements {
+            border-left-color: #fa7e1e;
+            grid-column: span 2;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #414042;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title::before {
+            content: '';
+            display: inline-block;
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(180deg, #414042 0%, #2d3748 100%);
+            border-radius: 2px;
+        }
+
+        .card-content {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .card-content p {
+            margin-bottom: 12px;
+        }
+
+        .card-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight {
+            display: inline-block;
+            background: linear-gradient(120deg, rgba(79, 172, 254, 0.2), rgba(0, 242, 254, 0.2));
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #0052a3;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #f7fafc;
+            border: 1px solid #cbd5e0;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #414042;
+        }
+
+        .tag.tech {
+            border-color: #c3dafe;
+            background: #f0f4ff;
+            color: #0052a3;
+        }
+
+        .tag.positive {
+            border-color: #c6f6d5;
+            background: #f0fff4;
+            color: #22543d;
+        }
+
+        .tag.warning {
+            border-color: #fed7d7;
+            background: #fff5f5;
+            color: #742a2a;
+        }
+
+        /* 숫자 강조 */
+        .stat-box {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background: linear-gradient(135deg, #f0f4ff 0%, #f0fff4 100%);
+            padding: 16px 24px;
+            border-radius: 8px;
+            margin-top: 12px;
+            margin-right: 12px;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0052a3;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* 리스트 */
+        .list-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .list-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .list-icon {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #f0f4ff;
+            font-weight: 700;
+            color: #0052a3;
+            font-size: 12px;
+        }
+
+        .strengths .list-icon {
+            background: #f0fff4;
+            color: #22543d;
+        }
+
+        .improvements .list-icon {
+            background: #fff5f5;
+            color: #742a2a;
+        }
+
+        .list-content {
+            flex: 1;
+        }
+
+        .list-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .list-desc {
+            font-size: 13px;
+            color: #718096;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: #718096;
+            border-top: 3px solid #414042;
+            margin-top: 40px;
+        }
+
+        .footer strong {
+            color: #414042;
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .card.overview,
+            .card.strengths,
+            .card.improvements {
+                grid-column: span 1;
+            }
+
+            .stat-box {
+                margin-right: 0;
+                margin-bottom: 12px;
+            }
+        }
+
+        /* 인쇄 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .card {
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 메뉴 -->
+    <nav class="navbar">
+        <a href="dashboard.html" class="nav-item" data-page="dashboard">
+            📊 대시보드
+        </a>
+        <a href="meeting-result.html" class="nav-item" data-page="meeting">
+            📋 회의록
+        </a>
+        <a href="chart.html" class="nav-item" data-page="chart">
+            📈 매출 현황
+        </a>
+        <a href="process.html" class="nav-item" data-page="diagram">
+            🔄 업무 프로세스
+        </a>
+        <a href="report.html" class="nav-item active" data-page="report">
+            🔍 사이트 분석
+        </a>
+    </nav>
+
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>🔍 SubTrackr 사이트 분석 보고서</h1>
+            <p>https://www.subtrac.kr/</p>
+            <div class="header-meta">
+                AI 기반 구독 추적 서비스 웹사이트 상세 분석
+            </div>
+        </div>
+
+        <!-- 카드 그리드 -->
+        <div class="cards-grid">
+            <!-- 개요 카드 -->
+            <div class="card overview">
+                <div class="card-title">📌 서비스 개요</div>
+                <div class="card-content">
+                    <p>
+                        <span class="highlight">SubTrackr</span>는 개발사 HELLOVR, INC.에서 개발한 웹 기반 구독 관리 서비스입니다.
+                        은행 로그인 없이 AI 기반 스크린샷 감지를 통해 안전하게 구독 서비스를 추적할 수 있는 프라이버시 중심 플랫폼입니다.
+                    </p>
+                </div>
+                <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px;">
+                    <div class="stat-box">
+                        <div class="stat-number">130+</div>
+                        <div class="stat-label">결제 서비스</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">11</div>
+                        <div class="stat-label">지원 언어</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">16</div>
+                        <div class="stat-label">통화 지원</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">4.8/5</div>
+                        <div class="stat-label">평점 (120명)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 사이트 구조 카드 -->
+            <div class="card structure">
+                <div class="card-title">🏗️ 기술 구조</div>
+                <div class="card-content">
+                    <p><strong>프레임워크:</strong> Next.js + React</p>
+                    <p><strong>렌더링:</strong> 서버사이드 렌더링 (SSR)</p>
+                    <p><strong>특징:</strong> PWA 지원 (Progressive Web App)</p>
+                </div>
+                <div class="tag-list">
+                    <span class="tag tech">Next.js</span>
+                    <span class="tag tech">React</span>
+                    <span class="tag tech">PWA</span>
+                    <span class="tag tech">TypeScript</span>
+                </div>
+            </div>
+
+            <!-- 디자인 카드 -->
+            <div class="card design">
+                <div class="card-title">🎨 디자인 특징</div>
+                <div class="card-content">
+                    <p><strong>폰트:</strong> Nunito (Sans-serif)</p>
+                    <p><strong>색상 톤:</strong> 전문적 미니멀</p>
+                    <p><strong>기본 색상:</strong> #414042 (다크 그레이)</p>
+                    <p><strong>반응형:</strong> 모바일 퍼스트 설계</p>
+                </div>
+            </div>
+
+            <!-- 주요 기능 카드 -->
+            <div class="card features">
+                <div class="card-title">⚡ 핵심 기능</div>
+                <div class="card-content">
+                    <div class="list-item">
+                        <div class="list-icon">1</div>
+                        <div class="list-content">
+                            <div class="list-title">AI 스크린샷 감지</div>
+                            <div class="list-desc">자동으로 구독 정보 인식</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">2</div>
+                        <div class="list-content">
+                            <div class="list-title">다국어 지원 (11개)</div>
+                            <div class="list-desc">한영중일 등 주요 언어 포함</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">3</div>
+                        <div class="list-content">
+                            <div class="list-title">글로벌 결제 서비스</div>
+                            <div class="list-desc">130+ 국제 결제 수단 지원</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">4</div>
+                        <div class="list-content">
+                            <div class="list-title">무료 사용</div>
+                            <div class="list-desc">진입장벽 없는 접근성</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 잘한 점 카드 -->
+            <div class="card strengths">
+                <div class="card-title">✅ 잘한 점</div>
+                <div class="card-content">
+                    <div class="list-item">
+                        <div class="list-icon">👍</div>
+                        <div class="list-content">
+                            <div class="list-title">프라이버시 우선</div>
+                            <div class="list-desc">
+                                은행 로그인 필요 없음으로 보안 위험 제거.
+                                사용자 금융 정보 보호에 집중
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">🌍</div>
+                        <div class="list-content">
+                            <div class="list-title">글로벌 접근성</div>
+                            <div class="list-desc">
+                                11개 언어, 16개 통화 지원으로
+                                국제 사용자층 확보
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">💰</div>
+                        <div class="list-content">
+                            <div class="list-title">무료 모델</div>
+                            <div class="list-desc">
+                                비용 장벽 제거로 빠른 사용자 확보
+                                및 입소문 가능성 높음
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">🤖</div>
+                        <div class="list-content">
+                            <div class="list-title">AI 기술 활용</div>
+                            <div class="list-desc">
+                                자동 감지로 수동 입력 부담 감소
+                                사용자 경험 향상
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 개선점 카드 -->
+            <div class="card improvements">
+                <div class="card-title">⚠️ 개선 필요 사항</div>
+                <div class="card-content">
+                    <div class="list-item">
+                        <div class="list-icon">⚡</div>
+                        <div class="list-content">
+                            <div class="list-title">JavaScript 성능 최적화</div>
+                            <div class="list-desc">
+                                현재 JavaScript 기반 렌더링에 의존.
+                                초기 페이지 로드 속도 개선 필요
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">📊</div>
+                        <div class="list-content">
+                            <div class="list-title">SEO 최적화</div>
+                            <div class="list-desc">
+                                정적 콘텐츠 미리보기 강화로
+                                검색 엔진 크롤링 개선 필요
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">♿</div>
+                        <div class="list-content">
+                            <div class="list-title">접근성 강화</div>
+                            <div class="list-desc">
+                                JavaScript 미지원 환경에서도
+                                기본 콘텐츠 제시 필요
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">📱</div>
+                        <div class="list-content">
+                            <div class="list-title">모바일 환경 테스트</div>
+                            <div class="list-desc">
+                                모바일 퍼스트 설계 확인 및
+                                실제 성능 테스트 강화 권장
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="footer">
+            <strong>분석 완료:</strong> 2026년 4월 9일 |
+            <strong>대상:</strong> SubTrackr (subtrac.kr) |
+            <strong>분류:</strong> 웹 서비스 분석
+        </div>
+    </div>
+</body>
+</html>

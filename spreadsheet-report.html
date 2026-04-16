@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>스프레드시트 분석 보고서</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        /* 네비게이션 메뉴 */
+        .navbar {
+            max-width: 1200px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+
+        .nav-item {
+            padding: 14px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #718096;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+            border-bottom-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 헤더 */
+        .header {
+            background: white;
+            border-radius: 16px;
+            padding: 50px 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #2d3748;
+            margin-bottom: 12px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .date-range {
+            display: inline-block;
+            background: #f7fafc;
+            padding: 10px 20px;
+            border-radius: 20px;
+            color: #667eea;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* 그리드 레이아웃 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:nth-child(2) {
+            border-top-color: #f093fb;
+        }
+
+        .stat-card:nth-child(3) {
+            border-top-color: #4facfe;
+        }
+
+        .stat-card:nth-child(4) {
+            border-top-color: #43e97b;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 4px;
+        }
+
+        .stat-description {
+            font-size: 12px;
+            color: #a0aec0;
+        }
+
+        /* 섹션 */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* 카테고리별 분석 */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .category-item {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .category-item:nth-child(2) {
+            border-left-color: #43e97b;
+        }
+
+        .category-name {
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .category-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .stat-mini {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 4px;
+        }
+
+        .stat-mini-value {
+            font-size: 16px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        /* 테이블 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .data-table thead {
+            background: #f7fafc;
+            border-top: 2px solid #e2e8f0;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .data-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 12px;
+            color: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            font-size: 13px;
+            color: #4a5568;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-primary {
+            background: #c3dafe;
+            color: #0052a3;
+        }
+
+        .badge-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        /* 차트 */
+        .chart-container {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f7fafc;
+            border-radius: 8px;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: #718096;
+            border-top: 3px solid #667eea;
+            margin-top: 40px;
+        }
+
+        /* 반응형 */
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+
+        /* 인쇄 */
+        @media print {
+            body {
+                background: white;
+            }
+
+            .navbar,
+            .footer {
+                display: none;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 메뉴 -->
+    <nav class="navbar">
+        <a href="dashboard.html" class="nav-item" data-page="dashboard">
+            📊 대시보드
+        </a>
+        <a href="meeting-result.html" class="nav-item" data-page="meeting">
+            📋 회의록
+        </a>
+        <a href="chart.html" class="nav-item" data-page="chart">
+            📈 매출 현황
+        </a>
+        <a href="process.html" class="nav-item" data-page="diagram">
+            🔄 업무 프로세스
+        </a>
+        <a href="report.html" class="nav-item" data-page="report">
+            🔍 사이트 분석
+        </a>
+        <a href="기관별프로세스.html" class="nav-item" data-page="institution">
+            📑 기관별 프로세스
+        </a>
+        <a href="spreadsheet-report.html" class="nav-item active" data-page="spreadsheet">
+            📊 스프레드시트
+        </a>
+    </nav>
+
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>📊 스프레드시트 분석 보고서</h1>
+            <p>2026년 매출 데이터 종합 분석</p>
+            <div class="date-range">📅 2026-01-05 ~ 2026-02-10</div>
+        </div>
+
+        <!-- 주요 지표 -->
+        <div class="grid">
+            <div class="stat-card">
+                <div class="stat-label">총 매출액</div>
+                <div class="stat-value">₩74.5M</div>
+                <div class="stat-description">30건의 거래</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">거래 건수</div>
+                <div class="stat-value">30건</div>
+                <div class="stat-description">평균 ₩2.48M/건</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">총 판매량</div>
+                <div class="stat-value">1,429개</div>
+                <div class="stat-description">평균 47.6개/건</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">상위 제품</div>
+                <div class="stat-value">에어팟</div>
+                <div class="stat-description">₩18.81M 매출</div>
+            </div>
+        </div>
+
+        <!-- 데이터 요약 -->
+        <div class="section">
+            <div class="section-title">📋 데이터 요약</div>
+            <div class="category-grid">
+                <div class="category-item">
+                    <div class="category-name">📱 카테고리별 분석</div>
+                    <div class="category-stats">
+                        <div>
+                            <div class="stat-mini">전자기기</div>
+                            <div class="stat-mini-value">₩44.87M</div>
+                        </div>
+                        <div>
+                            <div class="stat-mini">생활용품</div>
+                            <div class="stat-mini-value">₩29.67M</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 12px; color: #718096;">
+                        💡 전자기기가 60.3%의 높은 비율 차지
+                    </div>
+                </div>
+                <div class="category-item">
+                    <div class="category-name">🗺️ 지역별 분석</div>
+                    <div class="category-stats">
+                        <div>
+                            <div class="stat-mini">서울</div>
+                            <div class="stat-mini-value">₩38.98M</div>
+                        </div>
+                        <div>
+                            <div class="stat-mini">부산/대구</div>
+                            <div class="stat-mini-value">₩35.55M</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; font-size: 12px; color: #718096;">
+                        💡 서울이 52.3%로 최대 판매 지역
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 제품별 분석 -->
+        <div class="section">
+            <div class="section-title">🛍️ 제품별 매출 순위</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>순위</th>
+                        <th>제품명</th>
+                        <th>카테고리</th>
+                        <th>판매액</th>
+                        <th>판매량</th>
+                        <th>거래수</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-primary">1위</span></td>
+                        <td><strong>에어팟</strong></td>
+                        <td>전자기기</td>
+                        <td><strong>₩18,807,000</strong></td>
+                        <td>210개</td>
+                        <td>4건</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-primary">2위</span></td>
+                        <td><strong>블루투스 스피커</strong></td>
+                        <td>전자기기</td>
+                        <td><strong>₩8,400,000</strong></td>
+                        <td>70개</td>
+                        <td>3건</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-primary">3위</span></td>
+                        <td><strong>텀블러</strong></td>
+                        <td>생활용품</td>
+                        <td><strong>₩10,050,000</strong></td>
+                        <td>402개</td>
+                        <td>5건</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-primary">4위</span></td>
+                        <td><strong>무선 충전기</strong></td>
+                        <td>전자기기</td>
+                        <td><strong>₩7,515,000</strong></td>
+                        <td>167개</td>
+                        <td>4건</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-primary">5위</span></td>
+                        <td><strong>보조배터리</strong></td>
+                        <td>전자기기</td>
+                        <td><strong>₩9,545,000</strong></td>
+                        <td>273개</td>
+                        <td>5건</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">6위</span></td>
+                        <td><strong>에코백</strong></td>
+                        <td>생활용품</td>
+                        <td><strong>₩5,820,000</strong></td>
+                        <td>388개</td>
+                        <td>4건</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 월별 트렌드 분석 -->
+        <div class="section">
+            <div class="section-title">📈 월별 트렌드</div>
+            <div class="category-grid">
+                <div class="category-item">
+                    <div class="category-name">1월 성과</div>
+                    <div class="category-stats">
+                        <div>
+                            <div class="stat-mini">매출액</div>
+                            <div class="stat-mini-value">₩39.4M</div>
+                        </div>
+                        <div>
+                            <div class="stat-mini">거래수</div>
+                            <div class="stat-mini-value">16건</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="category-item">
+                    <div class="category-name">2월 성과</div>
+                    <div class="category-stats">
+                        <div>
+                            <div class="stat-mini">매출액</div>
+                            <div class="stat-mini-value">₩35.2M</div>
+                        </div>
+                        <div>
+                            <div class="stat-mini">거래수</div>
+                            <div class="stat-mini-value">14건</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="trendChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 지역별 분석 -->
+        <div class="section">
+            <div class="section-title">🗺️ 지역별 상세 분석</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>지역</th>
+                        <th>총 매출액</th>
+                        <th>거래 건수</th>
+                        <th>평균 주문액</th>
+                        <th>점유율</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>서울</strong></td>
+                        <td>₩38,981,000</td>
+                        <td>14건</td>
+                        <td>₩2,784,357</td>
+                        <td><span class="badge badge-primary">52.3%</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>부산</strong></td>
+                        <td>₩18,852,000</td>
+                        <td>8건</td>
+                        <td>₩2,356,500</td>
+                        <td><span class="badge badge-primary">25.3%</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>대구</strong></td>
+                        <td>₩16,712,000</td>
+                        <td>8건</td>
+                        <td>₭2,089,000</td>
+                        <td><span class="badge badge-primary">22.4%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="chart-container">
+                <canvas id="regionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- 핵심 인사이트 -->
+        <div class="section">
+            <div class="section-title">💡 핵심 인사이트</div>
+            <div style="display: grid; gap: 16px;">
+                <div style="padding: 16px; background: #f0f4ff; border-left: 4px solid #667eea; border-radius: 4px;">
+                    <strong style="color: #667eea;">상위 제품 집중화</strong><br>
+                    <span style="font-size: 13px; color: #4a5568;">에어팟이 전체 매출의 25.3%를 차지하며, 상위 3개 제품이 전체 매출의 62.8%를 차지합니다.</span>
+                </div>
+                <div style="padding: 16px; background: #f0fff4; border-left: 4px solid #43e97b; border-radius: 4px;">
+                    <strong style="color: #22543d;">지역 편중성</strong><br>
+                    <span style="font-size: 13px; color: #4a5568;">서울이 전체 매출의 52.3%로 지역 편중이 심하며, 부산과 대구 매출 확대가 필요합니다.</span>
+                </div>
+                <div style="padding: 16px; background: #f0f8ff; border-left: 4px solid #4facfe; border-radius: 4px;">
+                    <strong style="color: #0052a3;">카테고리 균형</strong><br>
+                    <span style="font-size: 13px; color: #4a5568;">전자기기(60.3%)가 생활용품(39.7%)보다 높은 비중을 차지하고 있습니다.</span>
+                </div>
+                <div style="padding: 16px; background: #fff5f0; border-left: 4px solid #f093fb; border-radius: 4px;">
+                    <strong style="color: #c53030;">월별 하락</strong><br>
+                    <span style="font-size: 13px; color: #4a5568;">2월 매출이 1월 대비 10.6% 감소했으므로 2월 하반기 판매 전략 강화가 필요합니다.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="footer">
+            <strong>스프레드시트 분석 보고서</strong> | 2026년 1월~2월 매출 데이터 분석<br>
+            📊 모든 차트는 실시간 데이터를 기반으로 생성됩니다. | 🖨️ Ctrl+P로 인쇄 가능
+        </div>
+    </div>
+
+    <script>
+        // 네비게이션 활성화
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = 'spreadsheet';
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-page') === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+
+            // 차트 그리기
+            drawTrendChart();
+            drawRegionChart();
+        });
+
+        // 월별 트렌드 차트
+        function drawTrendChart() {
+            const canvas = document.getElementById('trendChart');
+            const ctx = canvas.getContext('2d');
+
+            const padding = 50;
+            const width = canvas.width - padding * 2;
+            const height = canvas.height - padding * 2;
+
+            // 배경
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 축 그리기
+            ctx.strokeStyle = '#cbd5e0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.stroke();
+
+            // 데이터
+            const data = [
+                { month: '1월', sales: 39400000, transactions: 16 },
+                { month: '2월', sales: 35200000, transactions: 14 }
+            ];
+
+            const maxSales = 40000000;
+            const xSpacing = width / (data.length - 1);
+
+            // 선 그리기
+            ctx.strokeStyle = '#667eea';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+
+            data.forEach((item, idx) => {
+                const x = padding + idx * xSpacing;
+                const y = canvas.height - padding - (item.sales / maxSales) * height;
+
+                if (idx === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+
+                // 포인트
+                ctx.fillStyle = '#667eea';
+                ctx.beginPath();
+                ctx.arc(x, y, 5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 값 표시
+                ctx.fillStyle = '#667eea';
+                ctx.font = 'bold 13px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('₩' + (item.sales / 1000000).toFixed(1) + 'M', x, y - 15);
+
+                // 월 레이블
+                ctx.fillStyle = '#4a5568';
+                ctx.font = '13px sans-serif';
+                ctx.fillText(item.month, x, canvas.height - padding + 25);
+            });
+
+            ctx.stroke();
+        }
+
+        // 지역별 차트
+        function drawRegionChart() {
+            const canvas = document.getElementById('regionChart');
+            const ctx = canvas.getContext('2d');
+
+            const regions = [
+                { name: '서울', sales: 38981000, color: '#667eea' },
+                { name: '부산', sales: 18852000, color: '#f093fb' },
+                { name: '대구', sales: 16712000, color: '#4facfe' }
+            ];
+
+            const padding = 50;
+            const width = canvas.width - padding * 2;
+            const height = canvas.height - padding * 2;
+            const maxSales = 40000000;
+
+            // 배경
+            ctx.fillStyle = '#fff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 축
+            ctx.strokeStyle = '#cbd5e0';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(padding, padding);
+            ctx.lineTo(padding, canvas.height - padding);
+            ctx.lineTo(canvas.width - padding, canvas.height - padding);
+            ctx.stroke();
+
+            // 막대 그리기
+            const barWidth = width / (regions.length * 2);
+            regions.forEach((region, idx) => {
+                const x = padding + 30 + idx * (barWidth * 2.5);
+                const barHeight = (region.sales / maxSales) * height;
+
+                ctx.fillStyle = region.color;
+                ctx.fillRect(x, canvas.height - padding - barHeight, barWidth * 1.5, barHeight);
+
+                // 값 표시
+                ctx.fillStyle = region.color;
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('₩' + (region.sales / 1000000).toFixed(1) + 'M', x + barWidth * 0.75, canvas.height - padding - barHeight - 5);
+
+                // 지역명
+                ctx.fillStyle = '#4a5568';
+                ctx.font = '13px sans-serif';
+                ctx.fillText(region.name, x + barWidth * 0.75, canvas.height - padding + 25);
+            });
+        }
+    </script>
+</body>
+</html>

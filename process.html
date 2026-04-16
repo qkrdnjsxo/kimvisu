@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>업무 프로세스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+            color: #2d3748;
+        }
+
+        /* 네비게이션 메뉴 */
+        .navbar {
+            max-width: 1000px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+
+        .nav-item {
+            padding: 14px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #718096;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .diagram-container {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .diagram-container svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .diagram-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 메뉴 -->
+    <nav class="navbar">
+        <a href="dashboard.html" class="nav-item" data-page="dashboard">
+            📊 대시보드
+        </a>
+        <a href="meeting-result.html" class="nav-item" data-page="meeting">
+            📋 회의록
+        </a>
+        <a href="chart.html" class="nav-item" data-page="chart">
+            📈 매출 현황
+        </a>
+        <a href="process.html" class="nav-item active" data-page="diagram">
+            🔄 업무 프로세스
+        </a>
+        <a href="report.html" class="nav-item" data-page="report">
+            🔍 사이트 분석
+        </a>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>🔄 업무 프로세스</h1>
+            <p>콘텐츠 제작 파이프라인</p>
+        </div>
+
+        <div class="diagram-container">
+            <svg viewBox="0 0 920 200" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <style>
+                        .stage-box {
+                            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+                        }
+                        .stage-text {
+                            font-family: 'Segoe UI', 'Roboto', sans-serif;
+                            font-size: 14px;
+                            font-weight: 600;
+                            text-anchor: middle;
+                            dominant-baseline: middle;
+                        }
+                        .stage-emoji {
+                            font-size: 24px;
+                            text-anchor: middle;
+                            dominant-baseline: middle;
+                        }
+                        .arrow {
+                            stroke: #999;
+                            stroke-width: 2;
+                            fill: none;
+                            marker-end: url(#arrowhead);
+                        }
+                    </style>
+
+                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                        <polygon points="0 0, 10 3, 0 6" fill="#999" />
+                    </marker>
+                </defs>
+
+                <rect width="920" height="200" fill="#f8f9fa" rx="8"/>
+
+                <!-- 1단계: 기획 (파스텔 핑크) -->
+                <g class="stage-box">
+                    <rect x="30" y="50" width="120" height="100" rx="12" fill="#FFD1DC" opacity="0.9"/>
+                    <rect x="30" y="50" width="120" height="100" rx="12" fill="none" stroke="#FF9EBB" stroke-width="2"/>
+                </g>
+                <text class="stage-emoji" x="90" y="85">💡</text>
+                <text class="stage-text" x="90" y="125" fill="#C85A75">기획</text>
+
+                <!-- 화살표 1 -->
+                <path class="arrow" d="M 160 100 L 195 100"/>
+
+                <!-- 2단계: 제작 (파스텔 블루) -->
+                <g class="stage-box">
+                    <rect x="205" y="50" width="120" height="100" rx="12" fill="#C7E9FF" opacity="0.9"/>
+                    <rect x="205" y="50" width="120" height="100" rx="12" fill="none" stroke="#7EBFFF" stroke-width="2"/>
+                </g>
+                <text class="stage-emoji" x="265" y="85">🛠️</text>
+                <text class="stage-text" x="265" y="125" fill="#0052A3">제작</text>
+
+                <!-- 화살표 2 -->
+                <path class="arrow" d="M 335 100 L 370 100"/>
+
+                <!-- 3단계: 검토 (파스텔 옐로우) -->
+                <g class="stage-box">
+                    <rect x="380" y="50" width="120" height="100" rx="12" fill="#FFECB3" opacity="0.9"/>
+                    <rect x="380" y="50" width="120" height="100" rx="12" fill="none" stroke="#FFC800" stroke-width="2"/>
+                </g>
+                <text class="stage-emoji" x="440" y="85">✅</text>
+                <text class="stage-text" x="440" y="125" fill="#856404">검토</text>
+
+                <!-- 화살표 3 -->
+                <path class="arrow" d="M 510 100 L 545 100"/>
+
+                <!-- 4단계: 배포 (파스텔 초록) -->
+                <g class="stage-box">
+                    <rect x="555" y="50" width="120" height="100" rx="12" fill="#C8E6C9" opacity="0.9"/>
+                    <rect x="555" y="50" width="120" height="100" rx="12" fill="none" stroke="#66BB6A" stroke-width="2"/>
+                </g>
+                <text class="stage-emoji" x="615" y="85">🚀</text>
+                <text class="stage-text" x="615" y="125" fill="#1B5E20">배포</text>
+
+                <!-- 화살표 4 -->
+                <path class="arrow" d="M 685 100 L 720 100"/>
+
+                <!-- 5단계: 분석 (파스텔 퍼플) -->
+                <g class="stage-box">
+                    <rect x="730" y="50" width="120" height="100" rx="12" fill="#E1BEE7" opacity="0.9"/>
+                    <rect x="730" y="50" width="120" height="100" rx="12" fill="none" stroke="#CE93D8" stroke-width="2"/>
+                </g>
+                <text class="stage-emoji" x="790" y="85">📊</text>
+                <text class="stage-text" x="790" y="125" fill="#6A1B9A">분석</text>
+
+                <!-- 타이틀 -->
+                <text style="font-family: 'Segoe UI', sans-serif; font-size: 13px; fill: #666; text-anchor: start;" x="30" y="20">
+                    콘텐츠 제작 프로세스
+                </text>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        // 네비게이션 활성화 관리
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = 'diagram';
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-page') === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<svg viewBox="0 0 920 200" width="920" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .stage-box {
+        filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+      }
+      .stage-text {
+        font-family: 'Segoe UI', 'Roboto', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+      .stage-emoji {
+        font-size: 24px;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+      .arrow {
+        stroke: #999;
+        stroke-width: 2;
+        fill: none;
+        marker-end: url(#arrowhead);
+      }
+      .arrow-label {
+        font-family: 'Segoe UI', sans-serif;
+        font-size: 12px;
+        fill: #666;
+        text-anchor: middle;
+      }
+    </style>
+
+    <!-- 화살표 마커 -->
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#999" />
+    </marker>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="920" height="200" fill="#f8f9fa" rx="8"/>
+
+  <!-- 1단계: 기획 (파스텔 핑크) -->
+  <g class="stage-box">
+    <rect x="30" y="50" width="120" height="100" rx="12" fill="#FFD1DC" opacity="0.9"/>
+    <rect x="30" y="50" width="120" height="100" rx="12" fill="none" stroke="#FF9EBB" stroke-width="2"/>
+  </g>
+  <text class="stage-emoji" x="90" y="85">💡</text>
+  <text class="stage-text" x="90" y="125" fill="#C85A75">기획</text>
+
+  <!-- 화살표 1 -->
+  <path class="arrow" d="M 160 100 L 195 100"/>
+
+  <!-- 2단계: 제작 (파스텔 블루) -->
+  <g class="stage-box">
+    <rect x="205" y="50" width="120" height="100" rx="12" fill="#C7E9FF" opacity="0.9"/>
+    <rect x="205" y="50" width="120" height="100" rx="12" fill="none" stroke="#7EBFFF" stroke-width="2"/>
+  </g>
+  <text class="stage-emoji" x="265" y="85">🛠️</text>
+  <text class="stage-text" x="265" y="125" fill="#0052A3">제작</text>
+
+  <!-- 화살표 2 -->
+  <path class="arrow" d="M 335 100 L 370 100"/>
+
+  <!-- 3단계: 검토 (파스텔 옐로우) -->
+  <g class="stage-box">
+    <rect x="380" y="50" width="120" height="100" rx="12" fill="#FFECB3" opacity="0.9"/>
+    <rect x="380" y="50" width="120" height="100" rx="12" fill="none" stroke="#FFC800" stroke-width="2"/>
+  </g>
+  <text class="stage-emoji" x="440" y="85">✅</text>
+  <text class="stage-text" x="440" y="125" fill="#856404">검토</text>
+
+  <!-- 화살표 3 -->
+  <path class="arrow" d="M 510 100 L 545 100"/>
+
+  <!-- 4단계: 배포 (파스텔 초록) -->
+  <g class="stage-box">
+    <rect x="555" y="50" width="120" height="100" rx="12" fill="#C8E6C9" opacity="0.9"/>
+    <rect x="555" y="50" width="120" height="100" rx="12" fill="none" stroke="#66BB6A" stroke-width="2"/>
+  </g>
+  <text class="stage-emoji" x="615" y="85">🚀</text>
+  <text class="stage-text" x="615" y="125" fill="#1B5E20">배포</text>
+
+  <!-- 화살표 4 -->
+  <path class="arrow" d="M 685 100 L 720 100"/>
+
+  <!-- 5단계: 분석 (파스텔 퍼플) -->
+  <g class="stage-box">
+    <rect x="730" y="50" width="120" height="100" rx="12" fill="#E1BEE7" opacity="0.9"/>
+    <rect x="730" y="50" width="120" height="100" rx="12" fill="none" stroke="#CE93D8" stroke-width="2"/>
+  </g>
+  <text class="stage-emoji" x="790" y="85">📊</text>
+  <text class="stage-text" x="790" y="125" fill="#6A1B9A">분석</text>
+
+  <!-- 타이틀 -->
+  <text style="font-family: 'Segoe UI', sans-serif; font-size: 13px; fill: #666; text-anchor: start;" x="30" y="20">
+    콘텐츠 제작 프로세스
+  </text>
+</svg>

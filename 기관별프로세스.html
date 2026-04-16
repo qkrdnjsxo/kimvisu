@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계약 이후 프로세스</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            padding: 40px 20px;
+            color: #2d3748;
+            line-height: 1.6;
+        }
+
+        /* 네비게이션 메뉴 */
+        .navbar {
+            max-width: 1000px;
+            margin: 0 auto 30px;
+            background: white;
+            border-radius: 12px;
+            padding: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-wrap: wrap;
+            overflow-x: auto;
+        }
+
+        .nav-item {
+            padding: 14px 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            color: #718096;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item:hover {
+            color: #667eea;
+            border-bottom-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-item.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 헤더 */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 30px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        /* 목차 */
+        .toc {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #667eea;
+        }
+
+        .toc h2 {
+            font-size: 16px;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .toc-list {
+            list-style: none;
+        }
+
+        .toc-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .toc-list li:last-child {
+            border-bottom: none;
+        }
+
+        .toc-list a {
+            color: #4a5568;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s ease;
+        }
+
+        .toc-list a:hover {
+            color: #667eea;
+            padding-left: 8px;
+        }
+
+        /* 섹션 */
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            scroll-margin-top: 100px;
+        }
+
+        .section h2 {
+            font-size: 20px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* 체크리스트 테이블 */
+        .checklist {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .checklist thead {
+            background: #f7fafc;
+            border-top: 2px solid #e2e8f0;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .checklist th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 13px;
+            color: #2d3748;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .checklist tbody tr {
+            border-bottom: 1px solid #edf2f7;
+            transition: background 0.3s ease;
+        }
+
+        .checklist tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        .checklist tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .checklist td {
+            padding: 14px 16px;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .checklist .number {
+            font-weight: 700;
+            color: #667eea;
+            width: 40px;
+            text-align: center;
+        }
+
+        .checklist .task {
+            flex: 1;
+        }
+
+        .checklist .status {
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .checkbox-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #cbd5e0;
+            border-radius: 3px;
+            background: white;
+        }
+
+        /* 설명 박스 */
+        .note-box {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            border-left: 4px solid #667eea;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.8;
+        }
+
+        .note-box strong {
+            color: #667eea;
+        }
+
+        /* 푸터 */
+        .footer {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: #718096;
+            border-top: 3px solid #667eea;
+            margin-top: 40px;
+        }
+
+        /* 인쇄 스타일 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .navbar,
+            .footer {
+                display: none;
+            }
+
+            .section {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+                margin-bottom: 20px;
+            }
+
+            .header {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 12px;
+            }
+
+            .header {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .checklist td {
+                padding: 10px 8px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 네비게이션 메뉴 -->
+    <nav class="navbar">
+        <a href="dashboard.html" class="nav-item" data-page="dashboard">
+            📊 대시보드
+        </a>
+        <a href="meeting-result.html" class="nav-item" data-page="meeting">
+            📋 회의록
+        </a>
+        <a href="chart.html" class="nav-item" data-page="chart">
+            📈 매출 현황
+        </a>
+        <a href="process.html" class="nav-item" data-page="diagram">
+            🔄 업무 프로세스
+        </a>
+        <a href="report.html" class="nav-item" data-page="report">
+            🔍 사이트 분석
+        </a>
+        <a href="기관별프로세스.html" class="nav-item active" data-page="institution">
+            📑 기관별 프로세스
+        </a>
+    </nav>
+
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>⭐ 계약 이후 프로세스</h1>
+            <p>기관별 자금 획득 프로세스 및 체크리스트</p>
+        </div>
+
+        <!-- 목차 -->
+        <div class="toc">
+            <h2>📑 목차</h2>
+            <ul class="toc-list">
+                <li><a href="#section1">① 계약 초기 단계</a></li>
+                <li><a href="#section2">② 자료 취합 및 준비</a></li>
+                <li><a href="#section3">③ 컨설팅 및 안내</a></li>
+                <li><a href="#section4">④ 최종 준비 및 제출</a></li>
+            </ul>
+        </div>
+
+        <!-- 섹션 1 -->
+        <div class="section" id="section1">
+            <h2>
+                <span class="section-number">1</span>
+                계약 초기 단계
+            </h2>
+            <table class="checklist">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">No</th>
+                        <th>업무 항목</th>
+                        <th style="width: 80px;">상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number">1</td>
+                        <td class="task">단톡방 개설 및 업무요청서 전달</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">2</td>
+                        <td class="task">회사소개서 만들어놓기</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">3</td>
+                        <td class="task">빠르게 자료 취합</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">4</td>
+                        <td class="task">재무제표 가이드 전달</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="note-box">
+                <strong>💡 중요 사항:</strong> 계약 후 가장 먼저 단톡방을 개설하여 즉각적인 소통 체계를 구축합니다. 동시에 필요한 기초 자료들을 미리 준비하여 일정을 앞당깁니다.
+            </div>
+        </div>
+
+        <!-- 섹션 2 -->
+        <div class="section" id="section2">
+            <h2>
+                <span class="section-number">2</span>
+                자료 취합 및 준비
+            </h2>
+            <table class="checklist">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">No</th>
+                        <th>업무 항목</th>
+                        <th style="width: 80px;">상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number">5</td>
+                        <td class="task">회사소개서 전달</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">6</td>
+                        <td class="task">사업계획서 초안 받기</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="note-box">
+                <strong>💡 중요 사항:</strong> 회사소개서와 사업계획서는 기관 심사의 핵심 서류입니다. 초안부터 충실하게 작성하는 것이 매우 중요합니다.
+            </div>
+        </div>
+
+        <!-- 섹션 3 -->
+        <div class="section" id="section3">
+            <h2>
+                <span class="section-number">3</span>
+                컨설팅 및 안내
+            </h2>
+            <table class="checklist">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">No</th>
+                        <th>업무 항목</th>
+                        <th style="width: 80px;">상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number">7</td>
+                        <td class="task">컨설팅 실시 (재무제표 분석-스토리)</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">8</td>
+                        <td class="task">신청금액 최적화 상담</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">9</td>
+                        <td class="task">기관순서 및 전략 수립</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">10</td>
+                        <td class="task">사업계획서 초안 검토</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">11</td>
+                        <td class="task">2차 상담</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">12</td>
+                        <td class="task">진행하려는 기관 프로세스 설명</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">13</td>
+                        <td class="task">방문일자 체크</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">14</td>
+                        <td class="task">통화녹취 또는 캡쳐 공유 강조</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="note-box">
+                <strong>💡 중요 사항:</strong> 컨설팅 단계에서 재무제표 분석과 사업계획서 검토가 가장 핵심입니다. 기관별 특성을 파악하고 맞춤형 전략을 수립해야 합니다.
+            </div>
+        </div>
+
+        <!-- 섹션 4 -->
+        <div class="section" id="section4">
+            <h2>
+                <span class="section-number">4</span>
+                최종 준비 및 제출
+            </h2>
+            <table class="checklist">
+                <thead>
+                    <tr>
+                        <th style="width: 40px;">No</th>
+                        <th>업무 항목</th>
+                        <th style="width: 80px;">상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="number">15</td>
+                        <td class="task">자금 접수 및 안내 (녹취, 캡쳐 재강조)</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">16</td>
+                        <td class="task">스크립트 작성 및 전달</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">17</td>
+                        <td class="task">중진공 우선정책도평가 합격 시 스크립트 제작</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                    <tr>
+                        <td class="number">18</td>
+                        <td class="task">브로커 개입 관련 선반론 카톡폼 전달</td>
+                        <td class="status"><span class="checkbox-icon"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="note-box">
+                <strong>💡 중요 사항:</strong> 마지막 단계에서는 신청자의 실수를 방지하기 위해 명확한 지침과 스크립트를 제공하는 것이 매우 중요합니다. 특히 통화 기록과 에비던스 확보를 강조해야 합니다.
+            </div>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="footer">
+            <strong>계약 이후 프로세스</strong> | 기관별 자금 획득을 위한 완벽한 체크리스트<br>
+            📌 모든 항목을 체계적으로 진행하여 자금 획득 확률을 높입니다.
+        </div>
+    </div>
+
+    <script>
+        // 네비게이션 활성화
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPage = 'institution';
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-page') === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // 인쇄 기능
+        function printPage() {
+            window.print();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv 보고서_수정.txt 보고서/)",
+      "Bash(mv 보고서_초안.txt 보고서/)",
+      "Bash(mv 보고서_최종.txt 보고서/)",
+      "Bash(mv 보고서_최종_진짜최종.txt 보고서/)",
+      "Bash(mv 기획_메모.txt 메모/)",
+      "Bash(mv 메모.txt 메모/)",
+      "Bash(mv 아이디어_메모_0301.txt 메모/)",
+      "Bash(mv 피드백.txt 메모/)",
+      "Bash(mv 할일.txt 업무/)",
+      "Bash(mv 회의실.txt 업무/)",
+      "WebFetch(domain:www.subtrac.kr)",
+      "Bash(mkdir -p ~/.claude/skills/kimsecretary)",
+      "Read(//c/Users/박원태1/.claude/skills/**)",
+      "Bash(unzip -q \"★계약 이후 프로세스.hwpx\" -d temp_hwpx)",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:doc-0k-c8-sheets.googleusercontent.com)"
+    ]
+  }
+}
