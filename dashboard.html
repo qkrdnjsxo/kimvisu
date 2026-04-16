@@ -32,7 +32,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-            padding: 30px;
+            padding: 20px;
             transition: background 0.5s ease, color 0.5s ease;
         }
 
@@ -55,7 +55,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         h1 {
@@ -66,6 +68,18 @@
             background-clip: text;
         }
 
+        /* 모바일 네비게이션 토글 */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #667eea;
+            padding: 8px;
+            z-index: 101;
+        }
+
         /* 네비게이션 메뉴 */
         .navbar {
             background: var(--card-light);
@@ -73,11 +87,12 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
             padding: 0;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
             box-shadow: var(--shadow-light);
             display: flex;
             flex-wrap: wrap;
             overflow-x: auto;
+            position: relative;
         }
 
         body.dark-mode .navbar {
@@ -87,7 +102,7 @@
         }
 
         .nav-item {
-            padding: 14px 24px;
+            padding: 14px 20px;
             border: none;
             background: none;
             cursor: pointer;
@@ -101,6 +116,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            flex: 1 1 auto;
+            justify-content: center;
+            min-width: 0;
         }
 
         body.light-mode .nav-item {
@@ -131,6 +149,34 @@
 
         .nav-item:first-child {
             border-left: none;
+        }
+
+        /* 모바일 네비게이션 */
+        .navbar.mobile-open {
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            border-radius: 0 0 12px 12px;
+            z-index: 100;
+            margin-top: 8px;
+        }
+
+        .navbar.mobile-open .nav-item {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            border-left: none;
+            padding: 16px 20px;
+            justify-content: flex-start;
+            flex: 1 1 auto;
+        }
+
+        body.dark-mode .navbar.mobile-open .nav-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .navbar.mobile-open .nav-item:last-child {
+            border-bottom: none;
         }
 
         /* 다크/라이트 모드 토글 */
@@ -537,42 +583,461 @@
             letter-spacing: -0.5px;
         }
 
-        /* 반응형 */
-        @media (max-width: 1024px) {
+        /* ===== 반응형 디자인 ===== */
+
+        /* PC (1025px 이상) */
+        @media (min-width: 1025px) {
+            body {
+                padding: 30px;
+            }
+
             .dashboard-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
 
+            .nav-toggle {
+                display: none !important;
+            }
+
+            .navbar {
+                flex-wrap: nowrap;
+            }
+
+            .nav-item {
+                padding: 14px 24px;
+            }
+
+            .theme-toggle {
+                top: 30px;
+                right: 30px;
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+        }
+
+        /* 태블릿 (769px ~ 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            body {
+                padding: 20px;
+            }
+
+            .header {
+                margin-bottom: 20px;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-toggle {
+                display: none !important;
+            }
+
+            .navbar {
+                flex-wrap: wrap;
+                margin-bottom: 20px;
+            }
+
+            .nav-item {
+                padding: 12px 16px;
+                font-size: 13px;
+                flex: 0 1 auto;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .task-list {
+                max-height: 350px;
+            }
+
+            .schedule-table {
+                font-size: 12px;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 10px 6px;
+            }
+
             .theme-toggle {
                 top: 20px;
                 right: 20px;
+                width: 55px;
+                height: 55px;
+                font-size: 26px;
+            }
+
+            .stat-value {
+                font-size: 22px;
+            }
+
+            .stat-label {
+                font-size: 11px;
+            }
+        }
+
+        /* 모바일 (481px ~ 768px) */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                padding: 16px;
+            }
+
+            .header {
+                margin-bottom: 16px;
+                flex-wrap: wrap;
+            }
+
+            .nav-toggle {
+                display: block !important;
+            }
+
+            .navbar {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 16px;
+                right: 16px;
+                margin-bottom: 0;
+                border-radius: 12px;
+                margin-top: 8px;
+            }
+
+            .navbar.mobile-open {
+                display: flex;
+            }
+
+            .nav-item {
+                padding: 14px 16px;
+                font-size: 13px;
+                border: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                flex: 1 1 auto;
+                justify-content: flex-start;
+            }
+
+            body.dark-mode .nav-item {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            }
+
+            .nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .nav-item.active {
+                border-bottom: 3px solid #667eea;
+            }
+
+            h1 {
+                font-size: 20px;
+                flex: 1 1 100%;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .card {
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .card h2 {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .task-list {
+                max-height: 300px;
+            }
+
+            .task-item {
+                padding: 10px 0;
+                gap: 10px;
+            }
+
+            .task-checkbox {
+                width: 18px;
+                height: 18px;
+            }
+
+            .task-title {
+                font-size: 13px;
+            }
+
+            .task-meta {
+                font-size: 11px;
+                gap: 6px;
+            }
+
+            .priority-badge,
+            .status-badge {
+                padding: 3px 8px;
+                font-size: 10px;
+            }
+
+            .schedule-table {
+                font-size: 12px;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 10px 6px;
+            }
+
+            .project-item {
+                margin-bottom: 14px;
+            }
+
+            .project-header {
+                margin-bottom: 5px;
+            }
+
+            .project-name {
+                font-size: 13px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 16px;
+                border-radius: 12px;
+            }
+
+            .stat-label {
+                font-size: 11px;
+                margin-bottom: 6px;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+
+            .theme-toggle {
+                top: 16px;
+                right: 16px;
                 width: 50px;
                 height: 50px;
                 font-size: 24px;
             }
         }
 
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 22px;
+        /* 소형 모바일 (320px ~ 480px) */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
             }
 
-            .stats-grid {
+            .container {
+                margin: 0;
+            }
+
+            .header {
+                margin-bottom: 12px;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            .nav-toggle {
+                display: block !important;
+                width: 40px;
+                height: 40px;
+                padding: 6px;
+                font-size: 20px;
+                margin-left: auto;
+            }
+
+            .navbar {
+                display: none;
+                flex-direction: column;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                border-radius: 0;
+                background: var(--card-light);
+                margin: 0;
+                z-index: 100;
+                overflow-y: auto;
+            }
+
+            .navbar.mobile-open {
+                display: flex;
+            }
+
+            .nav-item {
+                padding: 16px 16px;
+                font-size: 14px;
+                border: none;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                flex: 1 1 auto;
+                justify-content: flex-start;
+            }
+
+            body.dark-mode .navbar {
+                background: var(--card-dark);
+            }
+
+            body.dark-mode .nav-item {
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            }
+
+            .nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .nav-item.active {
+                border-bottom: 3px solid #667eea;
+            }
+
+            h1 {
+                font-size: 18px;
+                flex: 1 1 100%;
+            }
+
+            .dashboard-grid {
                 grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 12px;
             }
 
             .card {
-                padding: 16px;
+                padding: 14px;
+                border-radius: 14px;
+                margin-bottom: 8px;
+            }
+
+            .card h2 {
+                font-size: 15px;
+                margin-bottom: 10px;
+            }
+
+            .task-list {
+                max-height: 250px;
+            }
+
+            .task-item {
+                padding: 8px 0;
+                gap: 8px;
+            }
+
+            .task-checkbox {
+                width: 16px;
+                height: 16px;
+                margin-top: 2px;
+                flex-shrink: 0;
+            }
+
+            .task-title {
+                font-size: 12px;
+                margin-bottom: 3px;
+            }
+
+            .task-meta {
+                font-size: 10px;
+                gap: 4px;
+                flex-wrap: wrap;
+            }
+
+            .priority-badge,
+            .status-badge {
+                padding: 2px 6px;
+                font-size: 9px;
+                border-radius: 4px;
+            }
+
+            .schedule-table {
+                font-size: 11px;
+                width: 100%;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 8px 4px;
+            }
+
+            .day-name {
+                font-size: 12px;
+                font-weight: 700;
+                min-width: 50px;
+            }
+
+            .day-date {
+                font-size: 10px;
+            }
+
+            .project-item {
+                margin-bottom: 12px;
+            }
+
+            .project-header {
+                margin-bottom: 4px;
+            }
+
+            .project-name {
+                font-size: 12px;
+            }
+
+            .project-percent {
+                font-size: 12px;
+            }
+
+            .progress-bar {
+                height: 8px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .stat-card {
+                padding: 12px;
+                border-radius: 10px;
+            }
+
+            .stat-label {
+                font-size: 10px;
+                margin-bottom: 4px;
+            }
+
+            .stat-value {
+                font-size: 16px;
+            }
+
+            .stat-card::before {
+                height: 0px;
             }
 
             .theme-toggle {
-                width: 50px;
-                height: 50px;
-                font-size: 24px;
+                position: fixed;
+                top: 12px;
+                right: 12px;
+                width: 48px;
+                height: 48px;
+                font-size: 22px;
+                z-index: 102;
             }
         }
 
@@ -607,10 +1072,11 @@
 </head>
 <body class="light-mode">
     <button class="theme-toggle" id="themeToggle" title="다크/라이트 모드 전환">☀️</button>
+    <button class="nav-toggle" id="navToggle" title="메뉴 열기">☰</button>
 
     <div class="container">
         <!-- 네비게이션 메뉴 -->
-        <nav class="navbar">
+        <nav class="navbar" id="navbar">
             <a href="dashboard.html" class="nav-item active" data-page="dashboard">
                 📊 대시보드
             </a>
@@ -984,6 +1450,41 @@
         // 매니저 초기화
         new NavigationManager();
         new ThemeManager();
+
+        // 모바일 네비게이션 토글
+        const navToggle = document.getElementById('navToggle');
+        const navbar = document.getElementById('navbar');
+
+        if (navToggle) {
+            navToggle.addEventListener('click', () => {
+                navbar.classList.toggle('mobile-open');
+                navToggle.textContent = navbar.classList.contains('mobile-open') ? '✕' : '☰';
+            });
+
+            // 네비게이션 아이템 클릭 시 메뉴 닫기
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    navbar.classList.remove('mobile-open');
+                    navToggle.textContent = '☰';
+                });
+            });
+        }
+
+        // 모바일 메뉴 외부 클릭 시 닫기
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.navbar') && !e.target.closest('.nav-toggle') && navbar) {
+                navbar.classList.remove('mobile-open');
+                if (navToggle) navToggle.textContent = '☰';
+            }
+        });
+
+        // 윈도우 리사이즈 시 메뉴 상태 리셋
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768 && navbar) {
+                navbar.classList.remove('mobile-open');
+                if (navToggle) navToggle.textContent = '☰';
+            }
+        });
 
         // 체크박스 기능
         document.querySelectorAll('.task-checkbox').forEach(checkbox => {
