@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react'
 import StatsCard from '@/components/StatsCard'
 import TaskItem from '@/components/TaskItem'
 import ProjectCard from '@/components/ProjectCard'
+import ChatInterface from '@/components/ChatInterface'
 import salesData from '@/data/sales.json'
 import tasksData from '@/data/tasks.json'
 import projectsData from '@/data/projects.json'
@@ -213,6 +214,11 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* AI Chat */}
+            <div className="mb-6">
+              <ChatInterface />
+            </div>
+
             {/* Quick Links */}
             <div className="glass-card p-6 rounded-glass">
               <h3 className="text-lg font-bold primary-text mb-4">✨ 기능</h3>
@@ -221,6 +227,7 @@ export default function Dashboard() {
                 <li>✅ 업무 우선순위 관리</li>
                 <li>✅ 프로젝트 진행률 추적</li>
                 <li>✅ 팀원 할당 현황</li>
+                <li>✅ 🤖 AI 어시스턴트</li>
               </ul>
             </div>
           </div>
