@@ -1,7 +1,9 @@
 // Google Gemini API 유틸리티 함수
 
 const API_KEY = process.env.Gemini_API_Key
-const API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent'
+// 최신 Gemini 2.5 Flash 모델 사용
+const GEMINI_MODEL = 'gemini-2.5-flash'
+const API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`
 
 interface GeminiRequest {
   contents: Array<{

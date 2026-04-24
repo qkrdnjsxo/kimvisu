@@ -1,161 +1,175 @@
-# 🎯 김비서 - 통합 비즈니스 대시보드
+# 🎯 김비서 대시보드 (Next.js 버전)
 
-전사 매출, 프로젝트, 일정, 회의를 한곳에서 관리하는 **통합 비즈니스 대시보드 시스템**
+전사 매출, 프로젝트, 일정, 회의를 한곳에서 관리하는 통합 비즈니스 대시보드
 
-## 🚀 빠른 시작
-
-**[📊 대시보드 열기](dashboard.html)** - 메인 대시보드 페이지
+**버전**: 0.1.0  
+**상태**: 🚧 개발 중
 
 ---
 
-## 📂 주요 페이지
+## 🚀 빠른 시작
 
-| 페이지 | 설명 | 링크 |
-|--------|------|------|
-| 📊 **대시보드** | 메인 대시보드 - 모든 현황 통합 | [dashboard.html](dashboard.html) |
-| 📈 **매출 차트** | 월별 추이, 제품별 판매량 분석 | [chart.html](chart.html) |
-| 💬 **회의 기록** | 회의 내용 및 액션 아이템 | [meeting-result.html](meeting-result.html) |
-| 🔄 **업무 프로세스** | 5단계 프로세스 플로우 | [process.html](process.html) |
-| 📝 **웹 분석** | 외부 웹사이트 분석 리포트 | [report.html](report.html) |
-| 📊 **데이터 분석** | 스프레드시트 데이터 상세 분석 | [spreadsheet-report.html](spreadsheet-report.html) |
-| ✅ **계약 체크리스트** | 계약 이후 프로세스 체크리스트 | [기관별프로세스.html](기관별프로세스.html) |
+### 1. 의존성 설치
+```bash
+npm install
+```
+
+### 2. 개발 서버 실행
+```bash
+npm run dev
+```
+
+브라우저에서 [http://localhost:3000](http://localhost:3000) 열기
+
+### 3. 프로덕션 빌드
+```bash
+npm run build
+npm start
+```
+
+---
+
+## 📁 프로젝트 구조
+
+```
+kim-secretary-dashboard/
+├── app/                          # Next.js App Router
+│   ├── layout.tsx               # 루트 레이아웃
+│   ├── page.tsx                 # 메인 대시보드
+│   └── globals.css              # 전역 스타일
+│
+├── components/                  # React 컴포넌트
+│   ├── sections/                # 섹션 컴포넌트
+│   ├── tasks/                   # 태스크 컴포넌트
+│   └── schedule/                # 일정 컴포넌트
+│
+├── types/                       # TypeScript 타입 정의
+├── data/                        # 데이터 파일
+├── utils/                       # 유틸리티 함수
+├── hooks/                       # 커스텀 훅
+│
+├── tailwind.config.ts           # Tailwind CSS 설정
+├── tsconfig.json                # TypeScript 설정
+├── next.config.js               # Next.js 설정
+└── package.json                 # 의존성
+```
+
+---
+
+## 🛠 사용 기술
+
+- **Next.js 14** - React 프레임워크
+- **TypeScript** - 타입 안정성
+- **Tailwind CSS** - 유틸리티 CSS
+- **React 18** - UI 라이브러리
 
 ---
 
 ## ✨ 주요 기능
 
-### 🎨 라이트/다크 모드
-우측 상단의 🌓 버튼으로 언제든 테마 전환 가능 (자동 저장)
-
-### 📊 실시간 대시보드
-- 총 매출액 및 평균 주문액
-- 프로젝트 진행률
-- 업무 완료율
-- 상위 판매 제품
-
-### 📈 고급 분석
-- Canvas 기반 라인 차트 (월별 매출 추이)
-- Canvas 기반 바 차트 (제품별 판매량)
-- 지역별 매출 분석
-- 카테고리별 매출 비율
-
-### 📋 업무 관리
-- 우선순위별 업무 목록
-- 마감일 기준 정렬
-- 담당자 표시
+- 📊 **매출 대시보드** - 실시간 매출 현황
+- 📋 **업무 관리** - 우선순위별 할 일 목록
+- 📅 **일정 조회** - 주간 일정 관리
+- 📈 **프로젝트 추적** - 진행률 시각화
+- 🌓 **라이트/다크 모드** - 테마 전환
+- 📱 **반응형 디자인** - 모든 기기 지원
 
 ---
 
-## 📊 데이터
+## 📝 스크립트
 
-### 매출 데이터
-```
-기간: 2026-01-05 ~ 2026-02-10
-거래: 30건
-총 매출: ₩74,545,000
-
-상위 제품:
-1. 에어팟 (₩13,411,000)
-2. 텀블러 (₩8,550,000)
-3. 블루투스 스피커 (₩7,600,000)
-```
-
-### 지역별 현황
-- 서울: 52.3%
-- 부산: 25.3%
-- 대구: 22.4%
-
-### 카테고리
-- 전자기기: 60.3%
-- 생활용품: 39.7%
+| 명령어 | 설명 |
+|--------|------|
+| `npm run dev` | 개발 서버 실행 (핫 리로드) |
+| `npm run build` | 프로덕션 빌드 생성 |
+| `npm start` | 프로덕션 서버 실행 |
+| `npm run lint` | ESLint 코드 검사 |
+| `npm run type-check` | TypeScript 타입 검사 |
 
 ---
 
-## 🛠 기술 스택
+## 🎨 디자인
 
-- **HTML5** - 시맨틱 마크업
-- **CSS3** - Glassmorphism, 반응형 디자인
-- **Vanilla JavaScript** - 라이브러리 미사용
-- **Canvas API** - 차트 시각화
-- **CSV/TXT** - 데이터 파일 형식
+- **색상**: 보라색(`#667eea`) & 자주색(`#764ba2`)
+- **패턴**: Glassmorphism
+- **효과**: backdrop-filter blur(10px)
+- **반응형**: 모바일 → 태블릿 → PC
 
 ---
 
-## 📁 폴더 구조
+## 📊 데이터 구조
 
+### Task (업무)
+```typescript
+{
+  id: string;
+  title: string;
+  priority: 'high' | 'medium' | 'low';
+  status: 'completed' | 'in_progress' | 'pending';
+  assignee: string;
+  dueDate: string;
+  category: string;
+}
 ```
-├── dashboard.html          # 📍 메인 대시보드
-├── chart.html              # 📊 매출 차트
-├── meeting-result.html     # 💬 회의 기록
-├── process.html            # 🔄 프로세스
-├── report.html             # 📝 분석 리포트
-├── spreadsheet-report.html # 📊 스프레드시트 분석
-├── 기관별프로세스.html      # ✅ 계약 체크리스트
-├── diagram.svg             # 📋 프로세스 다이어그램
-├── CLAUDE.md               # 📖 프로젝트 설명서
-├── README.md               # 📖 이 파일
-│
-├── 김비서-데이터/          # 📂 데이터 폴더
-│   ├── 매출데이터.csv
-│   ├── 업무목록.csv
-│   ├── 주간일정.txt
-│   ├── 프로젝트현황.csv
-│   └── 회의록.txt
-│
-└── 정리해줘/               # 📂 문서 및 자료
-    ├── 보고서/
-    ├── 메모/
-    ├── 업무/
-    └── 기타/
+
+### SalesData (매출)
+```typescript
+{
+  date: string;
+  product: string;
+  category: string;
+  quantity: number;
+  unitPrice: number;
+  totalSales: number;
+  region: string;
+}
+```
+
+### Project (프로젝트)
+```typescript
+{
+  id: string;
+  name: string;
+  progress: number; // 0-100
+  status: 'planning' | 'in_progress' | 'finishing' | 'completed';
+  assignee: string;
+  startDate: string;
+  dueDate: string;
+  budget: number;
+  spent: number;
+}
 ```
 
 ---
 
-## 🎯 사용 시나리오
+## 🔄 개발 로드맵
 
-### 아침 출근했을 때
-1. **대시보드** 열기 → 오늘의 주요 지표 확인
-2. **업무 목록** 확인 → 우선순위별 할일 정리
-3. **스케줄** 확인 → 오늘의 일정 파악
-
-### 주간 보고 회의
-1. **매출 차트** → 판매 추이 리포트
-2. **프로젝트 현황** → 진행률 공유
-3. **회의 기록** → 액션 아이템 확인
-
-### 월말 마감
-1. **스프레드시트 분석** → 월별 매출 검토
-2. **지역별 분석** → 지역 성과 비교
-3. **제품별 분석** → 상품 판매 현황
+- [x] 프로젝트 초기화
+- [x] TypeScript 설정
+- [x] Tailwind CSS 설정
+- [ ] 기본 컴포넌트 구현
+- [ ] 데이터 레이어 구성
+- [ ] 섹션 컴포넌트 개발
+- [ ] 메인 페이지 통합
+- [ ] 테마 시스템 구현
+- [ ] API 연결
+- [ ] 테스트
 
 ---
 
-## 🌓 테마 지원
+## 📚 참고 자료
 
-### 라이트 모드
-깔끔하고 밝은 디자인 - 낮 시간에 최적화
-
-### 다크 모드
-눈이 편한 어두운 디자인 - 야간 작업에 최적화
-
-선택한 테마는 자동으로 저장되어 다음 방문 시에도 유지됩니다.
+- [Next.js 공식 문서](https://nextjs.org/docs)
+- [Tailwind CSS 공식 문서](https://tailwindcss.com/docs)
+- [TypeScript 핸드북](https://www.typescriptlang.org/docs/)
+- [React 공식 문서](https://react.dev)
 
 ---
 
-## 📞 정보
+## 📄 라이선스
 
-**프로젝트명**: 김비서  
-**버전**: 1.0.0  
-**제작일**: 2026-04-09  
-**저장소**: https://github.com/qkrdnjsxo/kimvisu
+Private Project
 
 ---
 
-## 📖 더 알아보기
-
-더 자세한 프로젝트 정보는 [CLAUDE.md](CLAUDE.md)를 참고하세요.
-
----
-
-**만든이**: 박원태  
-📧 qkrdnjsxo858@gmail.com
+**마지막 업데이트**: 2026-04-24
