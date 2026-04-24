@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "title": "3월 프로모션 기획안 작성",
+    "priority": "high",
+    "status": "in_progress",
+    "assignee": "김대리",
+    "dueDate": "2026-03-12",
+    "category": "마케팅"
+  },
+  {
+    "id": 2,
+    "title": "인플루언서 미팅 일정 잡기",
+    "priority": "high",
+    "status": "pending",
+    "assignee": "이과장",
+    "dueDate": "2026-03-14",
+    "category": "마케팅"
+  },
+  {
+    "id": 3,
+    "title": "영상 광고 3개 추가 제작",
+    "priority": "medium",
+    "status": "in_progress",
+    "assignee": "박사원",
+    "dueDate": "2026-03-14",
+    "category": "콘텐츠"
+  },
+  {
+    "id": 4,
+    "title": "경쟁사 C사 캠페인 분석",
+    "priority": "medium",
+    "status": "pending",
+    "assignee": "박사원",
+    "dueDate": "2026-03-16",
+    "category": "리서치"
+  },
+  {
+    "id": 5,
+    "title": "4월 신제품 티저 콘텐츠 기획",
+    "priority": "high",
+    "status": "pending",
+    "assignee": "정팀장",
+    "dueDate": "2026-03-21",
+    "category": "마케팅"
+  },
+  {
+    "id": 6,
+    "title": "SNS 계정 주간 콘텐츠 업로드",
+    "priority": "medium",
+    "status": "completed",
+    "assignee": "김대리",
+    "dueDate": "2026-03-10",
+    "category": "콘텐츠"
+  },
+  {
+    "id": 7,
+    "title": "블로그 포스트 2건 작성",
+    "priority": "low",
+    "status": "pending",
+    "assignee": "이과장",
+    "dueDate": "2026-03-18",
+    "category": "콘텐츠"
+  },
+  {
+    "id": 8,
+    "title": "고객 설문조사 결과 분석",
+    "priority": "medium",
+    "status": "in_progress",
+    "assignee": "정팀장",
+    "dueDate": "2026-03-13",
+    "category": "리서치"
+  },
+  {
+    "id": 9,
+    "title": "파트너사 계약서 검토",
+    "priority": "high",
+    "status": "pending",
+    "assignee": "정팀장",
+    "dueDate": "2026-03-11",
+    "category": "운영"
+  },
+  {
+    "id": 10,
+    "title": "월간 마케팅 보고서 작성",
+    "priority": "high",
+    "status": "pending",
+    "assignee": "김대리",
+    "dueDate": "2026-03-31",
+    "category": "보고"
+  },
+  {
+    "id": 11,
+    "title": "워크숍 후기 작성하기",
+    "priority": "high",
+    "status": "pending",
+    "assignee": "박원태",
+    "dueDate": "2026-04-11",
+    "category": "보고"
+  }
+]

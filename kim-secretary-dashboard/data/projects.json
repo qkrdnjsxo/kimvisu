@@ -1,0 +1,68 @@
+[
+  {
+    "id": 1,
+    "name": "봄맞이 프로모션",
+    "progress": 65,
+    "status": "진행중",
+    "assignee": "김대리",
+    "startDate": "2026-02-15",
+    "dueDate": "2026-03-31",
+    "budget": 500,
+    "spent": 325
+  },
+  {
+    "id": 2,
+    "name": "신제품 런칭 캠페인",
+    "progress": 20,
+    "status": "준비중",
+    "assignee": "정팀장",
+    "startDate": "2026-03-01",
+    "dueDate": "2026-04-30",
+    "budget": 1200,
+    "spent": 240
+  },
+  {
+    "id": 3,
+    "name": "인플루언서 협업",
+    "progress": 35,
+    "status": "진행중",
+    "assignee": "이과장",
+    "startDate": "2026-02-20",
+    "dueDate": "2026-03-28",
+    "budget": 300,
+    "spent": 105
+  },
+  {
+    "id": 4,
+    "name": "유튜브 채널 리뉴얼",
+    "progress": 80,
+    "status": "마무리",
+    "assignee": "박사원",
+    "startDate": "2026-01-10",
+    "dueDate": "2026-03-15",
+    "budget": 150,
+    "spent": 120
+  },
+  {
+    "id": 5,
+    "name": "고객 리텐션 프로그램",
+    "progress": 10,
+    "status": "기획중",
+    "assignee": "정팀장",
+    "startDate": "2026-03-05",
+    "dueDate": "2026-05-31",
+    "budget": 800,
+    "spent": 80
+  },
+  {
+    "id": 6,
+    "name": "홈페이지 리뉴얼",
+    "progress": 45,
+    "status": "진행중",
+    "assignee": "이과장",
+    "startDate": "2026-02-01",
+    "dueDate": "2026-04-15",
+    "budget": 600,
+    "spent": 270
+  }
+]

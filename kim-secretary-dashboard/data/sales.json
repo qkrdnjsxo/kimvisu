@@ -1,0 +1,272 @@
+[
+  {
+    "date": "2026-01-05",
+    "product": "에어팟",
+    "category": "전자기기",
+    "quantity": 45,
+    "unitPrice": 89000,
+    "totalSales": 4005000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-05",
+    "product": "보조배터리",
+    "category": "전자기기",
+    "quantity": 32,
+    "unitPrice": 35000,
+    "totalSales": 1120000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-05",
+    "product": "텀블러",
+    "category": "생활용품",
+    "quantity": 78,
+    "unitPrice": 25000,
+    "totalSales": 1950000,
+    "region": "부산"
+  },
+  {
+    "date": "2026-01-08",
+    "product": "에어팟",
+    "category": "전자기기",
+    "quantity": 52,
+    "unitPrice": 89000,
+    "totalSales": 4628000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-08",
+    "product": "블루투스 스피커",
+    "category": "전자기기",
+    "quantity": 18,
+    "unitPrice": 120000,
+    "totalSales": 2160000,
+    "region": "대구"
+  },
+  {
+    "date": "2026-01-08",
+    "product": "텀블러",
+    "category": "생활용품",
+    "quantity": 65,
+    "unitPrice": 25000,
+    "totalSales": 1625000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-12",
+    "product": "보조배터리",
+    "category": "전자기기",
+    "quantity": 41,
+    "unitPrice": 35000,
+    "totalSales": 1435000,
+    "region": "부산"
+  },
+  {
+    "date": "2026-01-12",
+    "product": "무선 충전기",
+    "category": "전자기기",
+    "quantity": 29,
+    "unitPrice": 45000,
+    "totalSales": 1305000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-12",
+    "product": "에코백",
+    "category": "생활용품",
+    "quantity": 93,
+    "unitPrice": 15000,
+    "totalSales": 1395000,
+    "region": "대구"
+  },
+  {
+    "date": "2026-01-15",
+    "product": "에어팟",
+    "category": "전자기기",
+    "quantity": 38,
+    "unitPrice": 89000,
+    "totalSales": 3382000,
+    "region": "부산"
+  },
+  {
+    "date": "2026-01-15",
+    "product": "블루투스 스피커",
+    "category": "전자기기",
+    "quantity": 22,
+    "unitPrice": 120000,
+    "totalSales": 2640000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-15",
+    "product": "텀블러",
+    "category": "생활용품",
+    "quantity": 84,
+    "unitPrice": 25000,
+    "totalSales": 2100000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-19",
+    "product": "보조배터리",
+    "category": "전자기기",
+    "quantity": 55,
+    "unitPrice": 35000,
+    "totalSales": 1925000,
+    "region": "대구"
+  },
+  {
+    "date": "2026-01-19",
+    "product": "에코백",
+    "category": "생활용품",
+    "quantity": 110,
+    "unitPrice": 15000,
+    "totalSales": 1650000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-19",
+    "product": "무선 충전기",
+    "category": "전자기기",
+    "quantity": 33,
+    "unitPrice": 45000,
+    "totalSales": 1485000,
+    "region": "부산"
+  },
+  {
+    "date": "2026-01-22",
+    "product": "에어팟",
+    "category": "전자기기",
+    "quantity": 61,
+    "unitPrice": 89000,
+    "totalSales": 5429000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-22",
+    "product": "텀블러",
+    "category": "생활용품",
+    "quantity": 72,
+    "unitPrice": 25000,
+    "totalSales": 1800000,
+    "region": "대구"
+  },
+  {
+    "date": "2026-01-22",
+    "product": "블루투스 스피커",
+    "category": "전자기기",
+    "quantity": 15,
+    "unitPrice": 120000,
+    "totalSales": 1800000,
+    "region": "부산"
+  },
+  {
+    "date": "2026-01-26",
+    "product": "보조배터리",
+    "category": "전자기기",
+    "quantity": 48,
+    "unitPrice": 35000,
+    "totalSales": 1680000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-26",
+    "product": "에코백",
+    "category": "생활용품",
+    "quantity": 88,
+    "unitPrice": 15000,
+    "totalSales": 1320000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-01-26",
+    "product": "무선 충전기",
+    "category": "전자기기",
+    "quantity": 37,
+    "unitPrice": 45000,
+    "totalSales": 1665000,
+    "region": "대구"
+  },
+  {
+    "date": "2026-02-01",
+    "product": "에어팟",
+    "category": "전자기기",
+    "quantity": 70,
+    "unitPrice": 89000,
+    "totalSales": 6230000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-02-01",
+    "product": "텀블러",
+    "category": "생활용품",
+    "quantity": 95,
+    "unitPrice": 25000,
+    "totalSales": 2375000,
+    "region": "부산"
+  },
+  {
+    "date": "2026-02-01",
+    "product": "보조배터리",
+    "category": "전자기기",
+    "quantity": 43,
+    "unitPrice": 35000,
+    "totalSales": 1505000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-02-05",
+    "product": "블루투스 스피커",
+    "category": "전자기기",
+    "quantity": 25,
+    "unitPrice": 120000,
+    "totalSales": 3000000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-02-05",
+    "product": "에코백",
+    "category": "생활용품",
+    "quantity": 120,
+    "unitPrice": 15000,
+    "totalSales": 1800000,
+    "region": "대구"
+  },
+  {
+    "date": "2026-02-05",
+    "product": "무선 충전기",
+    "category": "전자기기",
+    "quantity": 31,
+    "unitPrice": 45000,
+    "totalSales": 1395000,
+    "region": "부산"
+  },
+  {
+    "date": "2026-02-10",
+    "product": "에어팟",
+    "category": "전자기기",
+    "quantity": 58,
+    "unitPrice": 89000,
+    "totalSales": 5162000,
+    "region": "대구"
+  },
+  {
+    "date": "2026-02-10",
+    "product": "텀블러",
+    "category": "생활용품",
+    "quantity": 67,
+    "unitPrice": 25000,
+    "totalSales": 1675000,
+    "region": "서울"
+  },
+  {
+    "date": "2026-02-10",
+    "product": "보조배터리",
+    "category": "전자기기",
+    "quantity": 39,
+    "unitPrice": 35000,
+    "totalSales": 1365000,
+    "region": "서울"
+  }
+]

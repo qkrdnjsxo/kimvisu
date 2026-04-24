@@ -1,6 +1,36 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
+import StatsCard from '@/components/StatsCard'
+import TaskItem from '@/components/TaskItem'
+import ProjectCard from '@/components/ProjectCard'
+import salesData from '@/data/sales.json'
+import tasksData from '@/data/tasks.json'
+import projectsData from '@/data/projects.json'
+
+interface SalesItem {
+  totalSales: number
+}
+
+interface Task {
+  id: number
+  title: string
+  priority: 'high' | 'medium' | 'low'
+  status: 'completed' | 'in_progress' | 'pending'
+  dueDate: string
+  assignee: string
+  category: string
+}
+
+interface Project {
+  id: number
+  name: string
+  progress: number
+  status: string
+  assignee: string
+  spent: number
+  budget: number
+}
 
 export default function Dashboard() {
   const [isDarkMode, setIsDarkMode] = useState(false)
@@ -31,6 +61,39 @@ export default function Dashboard() {
     updateTheme(newMode)
   }
 
+  // Calculate stats
+  const stats = useMemo(() => {
+    const totalSales = (salesData as SalesItem[]).reduce((sum, item) => sum + item.totalSales, 0)
+    const completedTasks = (tasksData as Task[]).filter(t => t.status === 'completed').length
+    const inProgressTasks = (tasksData as Task[]).filter(t => t.status === 'in_progress').length
+    const totalProjects = (projectsData as Project[]).length
+    const avgProgress = Math.round(
+      (projectsData as Project[]).reduce((sum, p) => sum + p.progress, 0) / totalProjects
+    )
+
+    return {
+      totalSales,
+      completedTasks,
+      inProgressTasks,
+      totalProjects,
+      avgProgress
+    }
+  }, [])
+
+  // Get high priority tasks
+  const highPriorityTasks = useMemo(() => {
+    return (tasksData as Task[])
+      .filter(t => t.priority === 'high')
+      .slice(0, 5)
+  }, [])
+
+  // Get in-progress projects
+  const inProgressProjects = useMemo(() => {
+    return (projectsData as Project[])
+      .filter(p => ['진행중', '마무리'].includes(p.status))
+      .slice(0, 4)
+  }, [])
+
   if (!mounted) return null
 
   return (
@@ -51,27 +114,115 @@ export default function Dashboard() {
             📊 김비서 대시보드
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            전사 매출, 프로젝트, 일정, 회의를 한곳에서 관리하세요
+            2026년 3월 현재 비즈니스 현황을 한눈에 파악하세요
           </p>
         </div>
 
-        {/* Placeholder Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="glass-card p-8">
-            <h2 className="text-2xl font-semibold mb-4">📋 준비 중...</h2>
-            <p className="text-gray-600 dark:text-gray-400">
-              Next.js 프로젝트 구축이 진행 중입니다. 곧 모든 기능이 준비될 예정입니다.
-            </p>
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          <StatsCard
+            icon="💰"
+            label="총 매출액"
+            value={Math.floor(stats.totalSales / 1000000)}
+            unit="백만원"
+            color="purple"
+          />
+          <StatsCard
+            icon="✅"
+            label="완료한 업무"
+            value={stats.completedTasks}
+            unit="개"
+            color="green"
+          />
+          <StatsCard
+            icon="🔄"
+            label="진행 중인 업무"
+            value={stats.inProgressTasks}
+            unit="개"
+            color="blue"
+          />
+          <StatsCard
+            icon="📈"
+            label="평균 프로젝트 진행률"
+            value={stats.avgProgress}
+            unit="%"
+            color="pink"
+          />
+        </div>
+
+        {/* Main Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Tasks */}
+          <div className="lg:col-span-2">
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold primary-text mb-4 flex items-center gap-2">
+                <span>📋</span> 우선순위 높은 업무
+              </h3>
+              <div>
+                {highPriorityTasks.map(task => (
+                  <TaskItem
+                    key={task.id}
+                    title={task.title}
+                    priority={task.priority}
+                    status={task.status}
+                    dueDate={task.dueDate}
+                    assignee={task.assignee}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Projects Section */}
+            <div>
+              <h3 className="text-2xl font-bold primary-text mb-4 flex items-center gap-2">
+                <span>🚀</span> 진행 중인 프로젝트
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {inProgressProjects.map(project => (
+                  <ProjectCard
+                    key={project.id}
+                    name={project.name}
+                    progress={project.progress}
+                    status={project.status}
+                    assignee={project.assignee}
+                    spent={project.spent}
+                    budget={project.budget}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="glass-card p-8">
-            <h2 className="text-2xl font-semibold mb-4">✨ 주요 기능</h2>
-            <ul className="space-y-2 text-gray-700 dark:text-gray-300">
-              <li>📊 실시간 매출 현황</li>
-              <li>📋 우선순위별 업무 관리</li>
-              <li>📅 주간 일정 조회</li>
-              <li>📈 프로젝트 진행률</li>
-            </ul>
+          {/* Right Column - Quick Info */}
+          <div>
+            <div className="glass-card p-6 rounded-glass mb-6">
+              <h3 className="text-lg font-bold primary-text mb-4">📊 통계</h3>
+              <div className="space-y-4">
+                <div className="pb-4 border-b border-gray-200 dark:border-gray-700">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">전체 업무</p>
+                  <p className="text-2xl font-bold primary-text">{tasksData.length}개</p>
+                </div>
+                <div className="pb-4 border-b border-gray-200 dark:border-gray-700">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">전체 프로젝트</p>
+                  <p className="text-2xl font-bold primary-text">{stats.totalProjects}개</p>
+                </div>
+                <div className="pb-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">거래 건수</p>
+                  <p className="text-2xl font-bold primary-text">{salesData.length}건</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div className="glass-card p-6 rounded-glass">
+              <h3 className="text-lg font-bold primary-text mb-4">✨ 기능</h3>
+              <ul className="text-sm space-y-2 text-gray-600 dark:text-gray-400">
+                <li>✅ 실시간 매출 분석</li>
+                <li>✅ 업무 우선순위 관리</li>
+                <li>✅ 프로젝트 진행률 추적</li>
+                <li>✅ 팀원 할당 현황</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
