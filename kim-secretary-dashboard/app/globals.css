@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Smooth transitions */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Glassmorphism base styles */
+@layer components {
+  .glass {
+    @apply backdrop-blur-glass border border-white/20 rounded-glass;
+  }
+
+  .glass-light {
+    @apply bg-white/95 shadow-glass-light;
+  }
+
+  .glass-dark {
+    @apply bg-black/40 shadow-glass-dark;
+  }
+
+  .glass-card {
+    @apply bg-white/95 dark:bg-black/40 backdrop-blur-glass border border-white/20 dark:border-white/10 rounded-glass shadow-glass-light dark:shadow-glass-dark;
+  }
+
+  .primary-text {
+    @apply bg-gradient-to-r from-primary-light to-primary-dark bg-clip-text text-transparent;
+  }
+
+  .nav-item {
+    @apply px-6 py-3.5 text-sm font-semibold text-gray-500 dark:text-gray-400 border-b-4 border-transparent transition-all;
+  }
+
+  .nav-item.active {
+    @apply text-primary-light dark:text-primary-light border-b-primary-light;
+  }
+
+  .nav-item:hover {
+    @apply text-primary-light;
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(102, 126, 234, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 126, 234, 0.5);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(102, 126, 234, 0.3);
+}
+
+.dark::selection {
+  background-color: rgba(102, 126, 234, 0.5);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
